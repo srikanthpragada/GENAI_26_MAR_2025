@@ -22,4 +22,4 @@ for doc in docs:
     doc.page_content = re.sub(r'[\n\r]+', '\n', doc.page_content)
     
     print(doc.page_content[:50])  # Print the first 50 characters of each document
-    print("-" * 80)
+    print("-" * 50)
