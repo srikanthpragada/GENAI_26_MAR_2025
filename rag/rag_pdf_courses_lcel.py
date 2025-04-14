@@ -1,4 +1,3 @@
-from huggingface_hub import InferenceClient
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_huggingface import HuggingFaceEmbeddings, HuggingFaceEndpoint
 from langchain_community.vectorstores import FAISS
@@ -19,7 +18,8 @@ print('Loaded document count :', len(docs))
 
 # Facebook AI Similarity Search
 db = FAISS.from_documents(docs, 
-                          HuggingFaceEmbeddings(model_name='BAAI/bge-base-en-v1.5'))
+                          HuggingFaceEmbeddings(
+                              model_name='sentence-transformers/all-MiniLM-L6-v2'))
 print('Created FAISS index')
 
 query = "Generative AI course fee"
@@ -27,23 +27,25 @@ query = "Generative AI course fee"
 retriever = db.as_retriever(search_type="similarity", 
                             search_kwargs={"k": 3})
 
-repo_id = "mistralai/Mistral-7B-Instruct-v0.3"
-llm = InferenceClient(repo_id, token=keys.HUGGINGFACEKEY, timeout=120)
+model_name = "mistralai/Mistral-7B-Instruct-v0.3"
  
-prompt = PromptTemplate.from_template("""Consider the following questions and answers from the given context:
-Q: question
-A: answer
+
+prompt_template = """
+Answer the question using the given context:
+
 {context}
-Answer the following question. Give a short answer.
-{question}
+
+Question: {question}
 """
-)
+
+prompt  = PromptTemplate.from_template(prompt_template)
+
 llm = HuggingFaceEndpoint(
-    model="mistralai/Mistral-7B-Instruct-v0.3",
+    model = model_name,
+    task="text-generation",
     huggingfacehub_api_token=keys.HUGGINGFACEKEY,
     max_new_tokens = 256
 )
-
 
 chain = (
     RunnableMap({
@@ -54,7 +56,6 @@ chain = (
     | llm
     | StrOutputParser()
 )
-
 
 query = "What is the fee for the AWS course?"
 response = chain.invoke({"question": query})

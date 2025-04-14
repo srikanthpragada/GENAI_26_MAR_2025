@@ -26,12 +26,12 @@ print('Created FAISS index')
 question = "What did Andrew Ng do in Baidu?"
 retriever = db.as_retriever()
 
-prompt_template = """Consider the following questions and answers from the given context:
-Q: question
-A: answer
+prompt_template = """
+Consider the following context and give a short answer for the given question.
+
 {context}
-Answer the following question.
-{question}
+
+Question:{question}
 """
 
 prompt  = PromptTemplate.from_template(prompt_template)
