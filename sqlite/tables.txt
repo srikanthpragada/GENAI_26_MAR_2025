@@ -5,9 +5,7 @@ create table courses
  duration integer,
  fee  integer,
  prerequisite  varchar(50)
- )
-
-
+)
 
 insert into courses(title, description, duration, fee, prerequisite)
   values('Python', 'This covers all concepts of Python Language and important libraries', 36,7500,'None');
