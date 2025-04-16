@@ -13,7 +13,8 @@ def fetch_top_10_languages():
     if not table:
         print("Failed to locate the table on the TIOBE page.")
         return
-
+    
+    
     rows = table.find_all('tr')[1:11]  # Skip the header row and get the top 10 rows
     print("Top 10 Programming Languages (TIOBE Index):")
     for row in rows:

@@ -1,9 +1,22 @@
 # Function to take a number and return true if it is prime
 def is_prime(num):
+
     """
-    Check if a number is prime.
-    A prime number is a natural number greater than 1 that cannot be formed by multiplying two smaller natural numbers.
+    Parameters:
+        num (int): The number to check for primality.
+
+    Returns:
+        bool: True if the number is prime, False otherwise.
+
+    Examples:
+        >>> is_prime(2)
+        True
+        >>> is_prime(4)
+        False
+        >>> is_prime(17)
+        True
     """
+   
     if num <= 1:
         return False
     if num <= 3:
